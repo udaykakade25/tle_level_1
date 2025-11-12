@@ -1,0 +1,52 @@
+create table customers (
+  cno varchar(10) primary key,
+  cname varchar(50),
+  ccity varchar(50),
+  cmobile varchar(15)
+);
+
+create table items (
+  ino varchar(10) primary key,
+  iname varchar(50),
+  itype varchar(30),
+  iprice numeric(10,2),
+  icount int
+);
+
+create table purchase (
+  pno varchar(10) primary key,
+  pdate date,
+  pquantity int,
+  cno varchar(10),
+  ino varchar(10),
+  foreign key (cno) references customers(cno),
+  foreign key (ino) references items(ino)
+);
+
+insert into customers values
+('c1','gopal','pune','9999988888'),
+('c2','maya','mumbai','8888877777'),
+('c3','ravi','delhi','7777766666'),
+('c4','meera','pune','6666655555');
+
+insert into items values
+('i1','pen','stationary',500,50),
+('i2','book','stationary',900,40),
+('i3','bag','accessory',1200,30),
+('i4','scale','stationary',450,20),
+('i5','bottle','utility',800,25);
+
+insert into purchase values
+('p1','2024-06-10',2,'c1','i1'),
+('p2','2024-06-12',1,'c2','i2'),
+('p3','2024-06-14',3,'c3','i3'),
+('p4','2024-06-16',2,'c4','i4'),
+('p5','2024-06-18',4,'c1','i2');
+
+select * from items where lower(itype)='stationary' and iprice between 400 and 1000;
+
+update customers set cmobile='9999900000' where lower(cname)='gopal';
+
+select * from items where iprice=(select max(iprice) from items);
+
+select * from purchase order by pdate desc;

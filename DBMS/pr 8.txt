@@ -1,0 +1,38 @@
+create table owners (
+  ownerno varchar(10) primary key,
+  ownername varchar(50),
+  phno varchar(15)
+);
+
+create table properties (
+  pno varchar(10) primary key,
+  type varchar(20),
+  sq_ft_area int,
+  rent numeric(10,2),
+  address varchar(50),
+  status varchar(20),
+  ownerno varchar(10),
+  foreign key (ownerno) references owners(ownerno)
+);
+
+insert into owners values
+('o1','gopal','9876543210'),
+('o2','meera','9876543222'),
+('o3','arun','9876543333');
+
+insert into properties values
+('p1','1 bhk',500,10000,'kothrud','not rented','o1'),
+('p2','2 bhk',800,15000,'akurdi','rented','o1'),
+('p3','1 bhk',400,8000,'kothrud','not rented','o2'),
+('p4','3 bhk',900,20000,'shivaji nagar','rented','o3'),
+('p5','2 bhk',750,14000,'baner','not rented','o3');
+
+create view owner_property_view as
+select o.ownername, p.pno, p.type, p.address, p.rent
+from owners o join properties p on o.ownerno=p.ownerno;
+
+select * from owners where ownername like '%ee%';
+
+select pno, type, address, rent, status from properties where rent>15000 and rent<22000;
+
+select distinct type from properties;

@@ -1,0 +1,29 @@
+create table customer (
+  id varchar(10) primary key,
+  name varchar(50),
+  age number,
+  address varchar(100),
+  salary number
+);
+/
+
+insert into customer values
+('c1','arun',28,'pune',55000),
+('c2','meera',30,'mumbai',60000),
+('c3','gopal',25,'delhi',45000),
+('c4','maya',26,'pune',48000),
+('c5','rajesh',27,'nagpur',70000);
+
+
+create or replace trigger trg_customer_changes
+after insert or update or delete on customer
+for each row
+declare
+  diff number;
+begin
+  if updating then
+    diff := :new.salary - :old.salary;
+    dbms_output.put_line('salary difference: ' || diff);
+  end if;
+end;
+/
